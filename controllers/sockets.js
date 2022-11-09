@@ -62,14 +62,14 @@ const populateUsers = async (users) => {
 const getUsersFromMessages = async (messages, uid) => {
   const users = [];
   messages.forEach((message) => {
-    if (!users.some((e) => e.uid === message.to) && message.to !== uid) {
+    if (!users.some((e) => e.uid == message.to) && message.to != uid) {
       users.push({
         uid: message.to,
         lastMessage: message,
       });
     } else if (
-      !users.some((e) => e.uid === message.from) &&
-      message.from !== uid
+      !users.some((e) => e.uid == message.from) &&
+      message.from != uid
     ) {
       users.push({
         uid: message.from,

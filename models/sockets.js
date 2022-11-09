@@ -26,13 +26,14 @@ class Sockets {
       this.sockets[uid] = socket.id;
 
       const users = await getChats(uid);
-
       users.forEach(async (user) => {
-        this.io.to(this.sockets[user._id]).emit("lista-usuarios", await getChats(user._id));
+        this.io
+          .to(this.sockets[user._id])
+          .emit("lista-usuarios", await getChats(user._id));
       });
-      
-      socket.emit("lista-usuarios", users);
-      
+
+      this.io.to(socket.id).emit("lista-usuarios", users);
+
       socket.on("obtener-mensajes", async (payload) => {
         const messages = await getMessages(payload.from, payload.to);
         socket.emit("mensajes", messages);
@@ -46,12 +47,15 @@ class Sockets {
             loading: false,
             msg: "Mensaje enviado exitosamente",
           });
-          this.io.to(this.sockets[payload.to]).emit("mensaje-personal", mensaje);
+          this.io
+            .to(this.sockets[payload.to])
+            .emit("mensaje-personal", mensaje);
           socket.emit("mensaje-personal", mensaje);
           // emit lista-usuarios
           socket.emit("lista-usuarios", await getChats(payload.from));
-          this.io.to(this.sockets[payload.to]).emit("lista-usuarios", await getChats(payload.to));
-
+          this.io
+            .to(this.sockets[payload.to])
+            .emit("lista-usuarios", await getChats(payload.to));
         } catch (error) {
           console.log(error);
           callback({
@@ -67,7 +71,9 @@ class Sockets {
           await disconnectUser(uid);
           const users = await getChats(uid);
           users.forEach(async (user) => {
-            this.io.to(this.sockets[user._id]).emit("lista-usuarios", await getChats(user._id));
+            this.io
+              .to(this.sockets[user._id])
+              .emit("lista-usuarios", await getChats(user._id));
           });
           console.log("user disconnected from: ", uid);
           delete this.sockets[uid];

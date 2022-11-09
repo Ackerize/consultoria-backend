@@ -78,10 +78,11 @@ const getAllByUser = async (req, res = response) => {
     const { userId } = req.query;
     const sortProperty = req.query.sortby || "createdAt";
     const sort = req.query.sort || "desc";
+    const filter = req.query.filter || "all";
     const consultorias = await Consultoria.find({
       $or: [
-        { consultor: userId, status: "Aceptada" },
-        { cliente: userId, status: "Aceptada" },
+        { consultor: userId, ...(filter === "all" ? {} : { status: filter }), },
+        { cliente: userId, ...(filter === "all" ? {} : { status: filter }), },
       ],
     }).sort({ [sortProperty]: sort });
     const consultoriasPopulated = await Consultoria.populate(consultorias, [
