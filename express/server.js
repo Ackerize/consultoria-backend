@@ -11,7 +11,6 @@ const Sockets = require("./models/sockets");
 const { dbConnection } = require("./database/config");
 
 const app = express();
-const port = process.env.PORT || 8080;
 dbConnection();
 const server = http.createServer(app);
 const io = socketio(server, {});
