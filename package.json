@@ -2,11 +2,12 @@
   "name": "01-socket-server-basic",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "functions/models/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon index.js",
-    "start": "node index.js"
+    "dev": "nodemon server-local.js",
+    "build": "netlify-lambda build express",
+    "start": "node server-local.js"
   },
   "author": "",
   "license": "ISC",
@@ -22,6 +23,9 @@
     "validator": "^13.7.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.20"
+    "copy-webpack-plugin": "^11.0.0",
+    "netlify-lambda": "^2.0.15",
+    "nodemon": "^2.0.20",
+    "serverless-http": "^3.1.0"
   }
 }
