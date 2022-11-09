@@ -1,8 +1,7 @@
-
 "use strict";
+require("dotenv").config();
+const app = require("./express/server");
 
-const Server = require("./express/server");
-require('dotenv').config();
-
-const server = new Server();
-server.execute();
+app.listen(process.env.PORT, () => {
+  console.log(`Server listening on port ${process.env.PORT}`);
+});
